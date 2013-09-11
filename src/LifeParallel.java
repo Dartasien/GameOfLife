@@ -24,7 +24,7 @@ public class LifeParallel
     {
     }
  
-
+    //Create a random starting matrix for the game
     public void createFirstMatrix()
     {
         Random random = new Random();
@@ -45,6 +45,8 @@ public class LifeParallel
             }
         }
     }
+    
+    //overriding the run command for threads
     public void run()
     {
         Thread t1 = new Thread(new computeMatrix(0, aMid));
@@ -56,7 +58,7 @@ public class LifeParallel
         t3.start();
         t4.start();
     }
-    
+    //print ou the matrix in console for debugging if required
     public void printMatrix(int[][] matrix)
     {
     
@@ -77,9 +79,10 @@ public class LifeParallel
         }
         System.out.println();
     }
-    
 }
 
+
+//class to compute the rules of the game
 class computeMatrix implements Runnable
 {
     private int j;
@@ -92,17 +95,17 @@ class computeMatrix implements Runnable
     
      public void run()
     {
-        int doa;
+        int deadOrAlive;
         for (j = 0; j < endRow; j++)
         {
             for (int k = 0; k < LifeParallel.mCol; k++)
             {
-                doa = checkPosition(j, k, LifeParallel.firstArray);
-                if (LifeParallel.firstArray[j][k] == 1 && doa == 2)
+                deadOrAlive = checkPosition(j, k, LifeParallel.firstArray);
+                if (LifeParallel.firstArray[j][k] == 1 && deadOrAlive == 2)
                 {
                     LifeParallel.newArray[j][k] = 1;
 
-                } else if (doa == 3)
+                } else if (deadOrAlive == 3)
                 {
 
                     LifeParallel.newArray[j][k] = 1;
@@ -114,7 +117,11 @@ class computeMatrix implements Runnable
             }
         }
     }
-     public int checkPosition(int row, int col, int[][] oldArray)
+     
+    //Check whether the position in question is on the left/right/top/bottom
+    //side or if its one of the 4 corners or is a middle position to identify
+    //which nearby positions to look at.
+    public int checkPosition(int row, int col, int[][] oldArray)
     {
         int deadoralive = 0;
         if (row == 0 && col == 0)
@@ -147,10 +154,9 @@ class computeMatrix implements Runnable
         }
         return deadoralive;
     }
-
+     
     public int upperLeft(int row, int col, int[][] oldArray) {
         int count = 0;
-        int deadoralive = 5;
         if (oldArray[row][col+1] == 1)
         {
             count++;
@@ -185,16 +191,14 @@ class computeMatrix implements Runnable
         }
         if (count == 2 || count == 3)
         {
-            deadoralive = count;
+            return count;
         } else {
-            deadoralive = 0;
+            return 0;
         }
-        return deadoralive;
     }
 
     public int topEdge(int row, int col, int[][] oldArray) {
         int count = 0;
-        int deadoralive = 5;
         if (oldArray[row][col-1] == 1)
         {
             count++;
@@ -229,16 +233,14 @@ class computeMatrix implements Runnable
         }
         if (count == 2 || count == 3)
         {
-            deadoralive = count;
+              return count;
         } else {
-            deadoralive = 0;
+            return 0;
         }
-        return deadoralive;
     }
 
     public int upperRight(int row, int col, int[][] oldArray) {
         int count = 0;
-        int deadoralive = 5;
         if (oldArray[row][col-1] == 1)
         {
             count++;
@@ -273,16 +275,14 @@ class computeMatrix implements Runnable
         }
         if (count == 2 || count == 3)
         {
-            deadoralive = count;
+             return count;
         } else {
-            deadoralive = 0;
+            return 0;
         }
-        return deadoralive;
     }
 
     public int leftEdge(int row, int col, int[][] oldArray) {
         int count = 0;
-        int deadoralive = 5;
         if (oldArray[row][col+(LifeParallel.mCol-1)] == 1)
         {
             count++;
@@ -317,16 +317,14 @@ class computeMatrix implements Runnable
         }
         if (count == 2 || count == 3)
         {
-            deadoralive = count;
+             return count;
         } else {
-            deadoralive = 0;
+            return 0;
         }
-        return deadoralive;
     }
 
     public int rightEdge(int row, int col, int[][] oldArray) {
         int count = 0;
-        int deadoralive = 5;
         if (oldArray[row][col-1] == 1)
         {
             count++;
@@ -361,16 +359,14 @@ class computeMatrix implements Runnable
         }
        if (count == 2 || count == 3)
         {
-            deadoralive = count;
+              return count;
         } else {
-            deadoralive = 0;
+            return 0;
         }
-        return deadoralive;
     }
 
     public int bottomLeft(int row, int col, int[][] oldArray) {
         int count = 0;
-        int deadoralive = 5;
         if (oldArray[row][col+(LifeParallel.mCol-1)] == 1)
         {
             count++;
@@ -405,16 +401,14 @@ class computeMatrix implements Runnable
         }
         if (count == 2 || count == 3)
         {
-            deadoralive = count;
+              return count;
         } else {
-            deadoralive = 0;
+            return 0;
         }
-        return deadoralive;
     }
 
     public int bottomEdge(int row, int col, int[][] oldArray) {
         int count = 0;
-        int deadoralive = 5;
         if (oldArray[row][col-1] == 1)
         {
             count++;
@@ -449,16 +443,14 @@ class computeMatrix implements Runnable
         }
         if (count == 2 || count == 3)
         {
-            deadoralive = count;
+              return count;
         } else {
-            deadoralive = 0;
+            return 0;
         }
-        return deadoralive;
     }
 
     public int bottomRight(int row, int col, int[][] oldArray) {
         int count = 0;
-        int deadoralive = 5;
         if (oldArray[row][col-1] == 1)
         {
             count++;
@@ -493,16 +485,14 @@ class computeMatrix implements Runnable
         }
         if (count == 2 || count == 3)
         {
-            deadoralive = count;
+              return count;
         } else {
-            deadoralive = 0;
+            return 0;
         }
-        return deadoralive;
     }
 
     public int insideEdges(int row, int col, int[][] oldArray) {
         int count = 0;
-        int deadoralive = 5;
         if (oldArray[row][col-1] == 1)
         {
             count++;
@@ -537,11 +527,10 @@ class computeMatrix implements Runnable
         }
        if (count == 2 || count == 3)
         {
-            deadoralive = count;
+              return count;
         } else {
-            deadoralive = 0;
+            return 0;
         }
-        return deadoralive;
     }
 
 }
